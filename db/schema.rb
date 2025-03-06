@@ -22,7 +22,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_06_231244) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "merchant_id", null: false
-    t.bigint "invoice_id", null: false
+    t.bigint "invoice_id"
     t.index ["invoice_id"], name: "index_coupons_on_invoice_id"
     t.index ["merchant_id"], name: "index_coupons_on_merchant_id"
   end

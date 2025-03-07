@@ -103,6 +103,31 @@ describe "Coupons endpoints", :type => :request do
 
             expect(response).to have_http_status(:unprocessable_entity)
         end
+
+        it "should require a unique code to be created" do
+            merchant1 = create(:merchant)
+            merchant2 = create(:merchant)
+
+            body1 = {
+                name: "Test",
+                code: "Test",
+                discount: 10,
+                merchant_id: merchant1.id
+            }
+            body2 = {
+                name: "Test",
+                code: "Test",
+                discount: 10,
+                merchant_id: merchant1.id
+            }
+
+            post "/api/v1/merchants/#{merchant1.id}/coupons", params: body1, as: :json
+            post "/api/v1/merchants/#{merchant2.id}/coupons", params: body2, as: :json
+            json = JSON.parse(response.body, symbolize_names: true)
+
+            # binding.pry
+            expect(response).to have_http_status(:unprocessable_entity)
+        end
     end
 
     describe "UPDATE a coupon" do

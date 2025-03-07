@@ -3,9 +3,10 @@ require "rails_helper"
 describe "Coupons endpoints", :type => :request do
     describe "GET all coupons" do
         it "should return a list of coupons" do
-            create_list(:coupon, 3, merchant: create(:merchant))
+            merchant = create(:merchant)
+            create_list(:coupon, 3, merchant: merchant)
 
-            get "/api/v1/#{}/coupons"
+            get "/api/v1/#{merchant.id}/coupons"
             json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:ok)

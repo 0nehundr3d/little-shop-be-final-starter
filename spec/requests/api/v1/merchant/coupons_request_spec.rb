@@ -163,5 +163,20 @@ describe "Coupons endpoints", :type => :request do
             json = JSON.parse(response.body, symbolize_names: true)
             expect(response).to have_http_status(:unprocessable_entity)
         end
+
+        it "shoudl return a 404 when merchant id is not found" do
+            merchant = create(:merchant)
+            coupon = create(:coupon, merchant: merchant)
+
+            body = {
+                active: false,
+                name: "Test Change"
+            }
+
+            patch "/api/v1/merchants/#{merchant.id}/coupons/#{coupon.id + 1}", params: body, as: :json
+            json = JSON.parse(response.body, symbolize_names: true)
+
+            expect(response).to have_http_status(:not_found)
+        end
     end
 end

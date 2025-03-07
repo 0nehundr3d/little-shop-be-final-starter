@@ -1,4 +1,5 @@
 require "rails_helper"
+require 'pry'
 
 describe "Coupons endpoints", :type => :request do
     describe "GET all coupons" do
@@ -59,6 +60,20 @@ describe "Coupons endpoints", :type => :request do
             expect(json[:data][:attributes][:percent_off]).to eq(body[:percent_off].to_i)
             expect(json[:data][:attributes][:merchant_id]).to eq(body[:merchant_id].to_i)
             expect(json[:data][:attributes][:active]).to eq(true)
+        end
+
+        it "should require a name to be created" do
+            merchant = create(:merchant)
+            body = {
+                code: "Test",
+                percent_off: "12",
+                merchant_id: merchant.id
+            }
+
+            post "/api/v1/merchants/#{merchant.id}/coupons", params: body, as: :json
+            json = JSON.parse(response.body, symbolize_names: true)
+
+            expect(response).to have_http_status(:unprocessable_entity)
         end
     end
 

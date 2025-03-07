@@ -47,8 +47,8 @@ describe "Coupons endpoints", :type => :request do
             expect(response).to have_http_status(:ok)
             expect(json[:data][:attributes][:name]).to eq(body[:name])
             expect(json[:data][:attributes][:code]).to eq(body[:code])
-            expect(json[:data][:attributes][:percent_off]).to eq(body[:percent_off])
-            expect(json[:data][:attributes][:merchant_id]).to eq(body[:merchant_id])
+            expect(json[:data][:attributes][:percent_off]).to eq(body[:percent_off].to_i)
+            expect(json[:data][:attributes][:merchant_id]).to eq(body[:merchant_id].to_i)
         end
     end
 end

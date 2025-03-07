@@ -75,6 +75,20 @@ describe "Coupons endpoints", :type => :request do
 
             expect(response).to have_http_status(:unprocessable_entity)
         end
+
+        it "should require a code to be created" do
+            merchant = create(:merchant)
+            body = {
+                name: "Test",
+                percent_off: "12",
+                merchant_id: merchant.id
+            }
+
+            post "/api/v1/merchants/#{merchant.id}/coupons", params: body, as: :json
+            json = JSON.parse(response.body, symbolize_names: true)
+
+            expect(response).to have_http_status(:unprocessable_entity)
+        end
     end
 
     describe "UPDATE a coupon" do

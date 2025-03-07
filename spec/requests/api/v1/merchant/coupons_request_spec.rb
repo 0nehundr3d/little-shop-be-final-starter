@@ -6,7 +6,7 @@ describe "Coupons endpoints", :type => :request do
             merchant = create(:merchant)
             create_list(:coupon, 3, merchant: merchant)
 
-            get "/api/v1/#{merchant.id}/coupons"
+            get "/api/v1/merchants/#{merchant.id}/coupons"
             json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:ok)

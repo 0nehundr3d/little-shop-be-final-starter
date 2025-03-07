@@ -8,10 +8,10 @@ describe "Coupons endpoints", :type => :request do
             get "/api/v1/coupons"
             json = JSON.parse(response.body, symbolize_names: true)
 
-            expect(respond).to have_http_status(:ok)
+            expect(response).to have_http_status(:ok)
             expect(json[:data].count).to eq(3)
             expect(json[:data].first).to include(:id, :type, :attributes)
-            expect(json[:data].first[:attributes]).to incude(:name, :code, :dollar_off, :percent_off, :merchant)
+            expect(json[:data].first[:attributes]).to include(:name, :code, :dollar_off, :percent_off, :merchant_id)
         end
     end
 end

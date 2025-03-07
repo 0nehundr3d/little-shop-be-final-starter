@@ -12,7 +12,7 @@ describe "Coupons endpoints", :type => :request do
             expect(response).to have_http_status(:ok)
             expect(json[:data].count).to eq(3)
             expect(json[:data].first).to include(:id, :type, :attributes)
-            expect(json[:data].first[:attributes]).to include(:name, :code, :dollar_off, :percent_off, :merchant_id)
+            expect(json[:data].first[:attributes]).to include(:name, :code, :dollar_off, :percent_off, :merchant_id, :active)
         end
 
     end
@@ -27,7 +27,7 @@ describe "Coupons endpoints", :type => :request do
     
             expect(response).to have_http_status(:ok)
             expect(json[:data]).to include(:id, :type, :attributes)
-            expect(json[:data][:attributes]).to include(:name, :code, :dollar_off, :percent_off, :merchant_id)
+            expect(json[:data][:attributes]).to include(:name, :code, :dollar_off, :percent_off, :merchant_id, :active)
         end 
     end
 
@@ -49,6 +49,7 @@ describe "Coupons endpoints", :type => :request do
             expect(json[:data][:attributes][:code]).to eq(body[:code])
             expect(json[:data][:attributes][:percent_off]).to eq(body[:percent_off].to_i)
             expect(json[:data][:attributes][:merchant_id]).to eq(body[:merchant_id].to_i)
+            expect(json[:data][:attributes][:active]).to eq(true)
         end
     end
 end

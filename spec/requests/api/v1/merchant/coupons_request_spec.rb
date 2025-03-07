@@ -68,7 +68,7 @@ describe "Coupons endpoints", :type => :request do
 
             expect(response).to have_http_status(:ok)
 
-            expect(json[:data][:id]).to eq(coupon.id)
+            expect(json[:data][:id]).to eq(coupon.id.to_s)
             expect(json[:data][:attributes][:active]).to eq(body[:active])
             expect(json[:data][:attributes][:name]).to eq(body[:name])
         end

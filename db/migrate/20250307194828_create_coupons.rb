@@ -3,8 +3,10 @@ class CreateCoupons < ActiveRecord::Migration[7.1]
     create_table :coupons do |t|
       t.string :name
       t.string :code
-      t.integer :percent_off
-      t.integer :dollar_off
+      t.boolean :percent
+      t.integer :discount
+      t.references :merchant, null: false, foreign_key: true
+      t.references :invoice, null: true, foreign_key: true
 
       t.timestamps
     end

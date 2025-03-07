@@ -5,7 +5,7 @@ describe "Coupons endpoints", :type => :request do
         it "should return a list of coupons" do
             create_list(:coupon, 3, merchant: create(:merchant))
 
-            get "/api/v1/coupons"
+            get "/api/v1/#{}/coupons"
             json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:ok)

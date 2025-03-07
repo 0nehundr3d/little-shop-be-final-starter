@@ -4,6 +4,7 @@ FactoryBot.define do
         code { Faker::Lorem.unique.word }
         percent { true }
         discount { Faker::Number.number(digits: 2) }
+        active { true }
         merchant
         invoice
     end

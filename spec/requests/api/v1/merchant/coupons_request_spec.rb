@@ -164,7 +164,7 @@ describe "Coupons endpoints", :type => :request do
             expect(response).to have_http_status(:unprocessable_entity)
         end
 
-        it "shoudl return a 404 when merchant id is not found" do
+        it "should return a 404 when merchant id is not found" do
             merchant = create(:merchant)
             coupon = create(:coupon, merchant: merchant)
 

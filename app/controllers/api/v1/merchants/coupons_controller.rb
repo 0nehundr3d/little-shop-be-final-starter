@@ -16,8 +16,15 @@ class Api::V1::Merchants::CouponsController < ApplicationController
 
     def update
         coupon = Coupon.find(params[:id])
+        
+        if params[:active] && Coupon.check_active_coupons(params[:merchant_id])
+            return render json: {
+                message: "Your update could not be made",
+                errors: ["Can not activate more than 5 coupons at one time"]
+            }, status: 400
+        end
+        
         coupon.update!(coupon_params)
-
         render json: CouponSerializer.new(coupon)
     end
 

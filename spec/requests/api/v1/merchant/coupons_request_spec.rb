@@ -178,5 +178,21 @@ describe "Coupons endpoints", :type => :request do
 
             expect(response).to have_http_status(:not_found)
         end
+
+        it "should retuan a 400 when trying to make a 5th coupon active" do
+            merchant = create(:merchant)
+            active_coupons = create_list(:coupon, 5, merchant: merchant)
+            inactive_coupon = create(:coupon, active: false, merchant: merchant)
+
+            body = {
+                active: true
+            }
+
+            patch "/api/v1/merchants/#{merchant.id}/coupons/#{inactive_coupon.id}", params: body, as: :json
+            json = JSON.parse(response.body, symbolize_names: true)
+
+            expect(response).to have_http_status(400)
+            expect(json[:errors][0]).to eq("Can not activeate more than 5 coupons at one time")
+        end
     end
 end

@@ -192,7 +192,7 @@ describe "Coupons endpoints", :type => :request do
             json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(400)
-            expect(json[:errors][0]).to eq("Can not activeate more than 5 coupons at one time")
+            expect(json[:errors][0]).to eq("Can not activate more than 5 coupons at one time")
         end
     end
 end

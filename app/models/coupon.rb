@@ -5,4 +5,8 @@ class Coupon < ApplicationRecord
 
     belongs_to :merchant
     belongs_to :invoice, optional: true
+
+    def self.check_active_coupons(merchant_id)
+        return Coupon.where(:merchant_id => merchant_id).length >= 5
+    end
 end

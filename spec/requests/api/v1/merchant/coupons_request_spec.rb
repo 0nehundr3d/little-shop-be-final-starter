@@ -30,4 +30,25 @@ describe "Coupons endpoints", :type => :request do
             expect(json[:data][:attributes]).to include(:name, :code, :dollar_off, :percent_off, :merchant_id)
         end 
     end
+
+    describe "POST a coupon" do
+        it "should create a coupon when all params are present" do
+            merchant = create(:merchant)
+            body = {
+                name: "Test Coupon",
+                code: "Test",
+                percent_off: "12",
+                merchant_id: merchant.id
+            }
+
+            post "/api/v1/merchants/#{merchant.id}/coupons", params: body, as: :json
+            json = JSON.parse(response.body, symbolize_names: true)
+
+            expect(response).to have_http_status(:ok)
+            expect(json[:data][:attributes][:name]).to eq(body[:name])
+            expect(json[:data][:attributes][:code]).to eq(body[:code])
+            expect(json[:data][:attributes][:percent_off]).to eq(body[:percent_off])
+            expect(json[:data][:attributes][:merchant_id]).to eq(body[:merchant_id])
+        end
+    end
 end

@@ -13,7 +13,7 @@ describe "Coupons endpoints", :type => :request do
             expect(response).to have_http_status(:ok)
             expect(json[:data].count).to eq(3)
             expect(json[:data].first).to include(:id, :type, :attributes)
-            expect(json[:data].first[:attributes]).to include(:name, :code, :dollar_off, :percent_off, :merchant_id, :active)
+            expect(json[:data].first[:attributes]).to include(:name, :code, :percent, :discount, :merchant_id, :active)
         end
     end
     
@@ -27,7 +27,7 @@ describe "Coupons endpoints", :type => :request do
             
             expect(response).to have_http_status(:ok)
             expect(json[:data]).to include(:id, :type, :attributes)
-            expect(json[:data][:attributes]).to include(:name, :code, :dollar_off, :percent_off, :merchant_id, :active)
+            expect(json[:data][:attributes]).to include(:name, :code, :percent, :discount, :merchant_id, :active)
         end 
 
         it "Should return a 404 error when searching for non existant merchant" do
@@ -47,7 +47,7 @@ describe "Coupons endpoints", :type => :request do
             body = {
                 name: "Test Coupon",
                 code: "Test",
-                percent_off: "12",
+                discount: "12",
                 merchant_id: merchant.id
             }
 
@@ -57,7 +57,7 @@ describe "Coupons endpoints", :type => :request do
             expect(response).to have_http_status(:ok)
             expect(json[:data][:attributes][:name]).to eq(body[:name])
             expect(json[:data][:attributes][:code]).to eq(body[:code])
-            expect(json[:data][:attributes][:percent_off]).to eq(body[:percent_off].to_i)
+            expect(json[:data][:attributes][:discount]).to eq(body[:discount].to_i)
             expect(json[:data][:attributes][:merchant_id]).to eq(body[:merchant_id].to_i)
             expect(json[:data][:attributes][:active]).to eq(true)
         end
@@ -66,7 +66,7 @@ describe "Coupons endpoints", :type => :request do
             merchant = create(:merchant)
             body = {
                 code: "Test",
-                percent_off: "12",
+                discount: "12",
                 merchant_id: merchant.id
             }
 
@@ -80,7 +80,7 @@ describe "Coupons endpoints", :type => :request do
             merchant = create(:merchant)
             body = {
                 name: "Test",
-                percent_off: "12",
+                discount: "12",
                 merchant_id: merchant.id
             }
 

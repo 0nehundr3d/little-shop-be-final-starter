@@ -10,7 +10,7 @@ class Api::V1::Merchants::CouponsController < ApplicationController
     end
 
     def create 
-        coupon = Coupon.create(coupon_params)
+        coupon = Coupon.create!(coupon_params)
         render json: CouponSerializer.new(coupon)
     end
 

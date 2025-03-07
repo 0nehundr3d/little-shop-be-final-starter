@@ -52,4 +52,25 @@ describe "Coupons endpoints", :type => :request do
             expect(json[:data][:attributes][:active]).to eq(true)
         end
     end
+
+    describe "UPDATE a coupon" do
+        it "should update a specific coupon" do
+            merchant = create(:merchant)
+            coupon = create(:coupon, merchant: merchant)
+
+            body = {
+                active: false,
+                name: "Test Change"
+            }
+
+            patch "/api/v1/merchants/#{merchant.id}/coupons/#{coupon.id}", params: body, as: :json
+            json = JSON.parse(response.body, symbolize_names: true)
+
+            expect(response).to have_http_status(:ok)
+
+            expect(json[:data][:id]).to eq(coupon.id)
+            expect(json[:data][:attributes][:active]).to eq(body[:active])
+            expect(json[:data][:attributes][:name]).to eq(body[:name])
+        end
+    end
 end

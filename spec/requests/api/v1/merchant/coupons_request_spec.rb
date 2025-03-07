@@ -149,5 +149,19 @@ describe "Coupons endpoints", :type => :request do
             expect(json[:data][:attributes][:active]).to eq(body[:active])
             expect(json[:data][:attributes][:name]).to eq(body[:name])
         end
+
+        it "should not allow updating to an already taken coupon code" do
+            merchant = create(:merchant)
+            coupons = create_list(:coupon, 2, merchant: merchant)
+
+            body = {
+                code: coupons[0].code
+            }
+
+            patch "/api/v1/merchants/#{merchant.id}/coupons/#{coupons[1].id}", params: body, as: :json
+            
+            json = JSON.parse(response.body, symbolize_names: true)
+            expect(response).to have_http_status(:unprocessable_entity)
+        end
     end
 end

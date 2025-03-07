@@ -14,21 +14,30 @@ describe "Coupons endpoints", :type => :request do
             expect(json[:data].first).to include(:id, :type, :attributes)
             expect(json[:data].first[:attributes]).to include(:name, :code, :dollar_off, :percent_off, :merchant_id, :active)
         end
-
     end
     
     describe "GET one coupon" do
         it "should return info about a specific coupon" do
             merchant = create(:merchant)
             coupon = create(:coupon, merchant: merchant)
-    
+            
             get "/api/v1/merchants/#{merchant.id}/coupons/#{coupon.id}"
             json = JSON.parse(response.body, symbolize_names: true)
-    
+            
             expect(response).to have_http_status(:ok)
             expect(json[:data]).to include(:id, :type, :attributes)
             expect(json[:data][:attributes]).to include(:name, :code, :dollar_off, :percent_off, :merchant_id, :active)
         end 
+
+        it "Should return a 404 error when searching for non existant merchant" do
+            merchant = create(:merchant)
+            coupon = create(:coupon, merchant: merchant)
+
+            get "/api/v1/merchants/#{merchant.id}/coupons/#{coupon.id + 1}"
+            json = JSON.parse(response.body, symbolize_names: true)
+
+            expect(response).to have_http_status(:not_found)
+        end
     end
 
     describe "POST a coupon" do
